@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tech Wikiroulette</title>
+  <meta name="description" content="Spin for a random technical Wikipedia article in ML/AI, computer science, math & stats, or security & blockchain.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="masthead">
+      <p class="eyebrow"><span class="mono">000–999</span> Technical reference drawer</p>
+      <h1>Tech Wikiroulette</h1>
+      <p class="lede">A random technical Wikipedia article, one spin at a time. Each spin opens the article in a new tab.</p>
+    </header>
+
+    <section class="drawer" aria-labelledby="areas-label">
+      <h2 id="areas-label" class="label">Drawers</h2>
+      <div id="areas" class="areas" role="group" aria-label="Areas to spin from"></div>
+    </section>
+
+    <section class="controls" aria-label="Spin options">
+      <div class="field">
+        <label for="seed" class="label">Subfield</label>
+        <select id="seed"><option value="">Any subfield</option></select>
+      </div>
+      <label class="check" for="balance">
+        <input type="checkbox" id="balance">
+        <span>Give each subfield equal odds</span>
+      </label>
+    </section>
+
+    <section class="spin-zone">
+      <button id="spin" class="spin" type="button" disabled>
+        <span class="spin-word">Spin</span>
+        <span class="spin-hint mono">or press S</span>
+      </button>
+      <p id="status" class="status" role="status" aria-live="polite">Loading the card catalog…</p>
+    </section>
+
+    <section class="history" aria-labelledby="history-label">
+      <div class="history-head">
+        <h2 id="history-label" class="label">Recent spins</h2>
+        <div class="history-actions">
+          <span id="seen" class="mono muted"></span>
+          <button id="reset-seen" class="link-btn" type="button">Reset seen</button>
+          <button id="clear-history" class="link-btn" type="button">Clear history</button>
+        </div>
+      </div>
+      <ol id="history-list" class="history-list"></ol>
+      <p id="history-empty" class="muted">Nothing yet. Your spins will be listed here so you can find them again.</p>
+    </section>
+
+    <footer class="foot muted">
+      <span id="built"></span>
+      <span>Articles from <a href="https://en.wikipedia.org/">Wikipedia</a>, picked from its categories. Call numbers are Dewey-style, for flavor.</span>
+      <a href="https://github.com/AadityaKarki/tech-wikiroulette">Source on GitHub</a>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

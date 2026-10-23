@@ -1,0 +1,66 @@
+{
+  "user_agent": "TechWikiroulette/1.0 (https://github.com/AadityaKarki/tech-wikiroulette)",
+  "min_bytes": 3000,
+  "min_pages_per_area": 200,
+  "max_categories_per_area": 2500,
+  "drop_title_prefixes": ["List of ", "Lists of ", "Outline of ", "Index of ", "Glossary of ", "Timeline of "],
+  "blocked_category_patterns": [
+    "\\bpeople\\b", "\\bpersons?\\b", "scientists\\b", "statisticians\\b", "mathematicians\\b",
+    "cryptographers\\b", "researchers\\b", "engineers\\b", "programmers\\b", "hackers\\b",
+    "theorists\\b", "economists\\b", "founders\\b", "executives\\b", "entrepreneurs\\b",
+    "\\bcompan(y|ies)\\b", "\\bbusinesses\\b", "organi[sz]ations\\b", "\\bexchanges\\b",
+    "\\bconferences\\b", "\\bjournals\\b", "\\bbooks\\b", "\\bpublications\\b", "\\bawards?\\b",
+    "\\bfilms?\\b", "\\btelevision\\b", "video games", "\\bfiction(al)?\\b", "\\bin popular culture\\b",
+    "\\bby country\\b", "\\bby nationality\\b", "\\bby year\\b", "\\bby decade\\b", "\\bby century\\b",
+    "\\bhistory of\\b", "\\bstubs?\\b", "\\bwikipedia\\b", "\\btemplates?\\b",
+    "\\bsoftware\\b", "\\bproducts?\\b", "\\bprojects?\\b", "\\bstartups?\\b", "\\bevents?\\b",
+    "\\bincidents?\\b", "\\bcrimes?\\b", "\\bcriminals?\\b", "\\blegislation\\b", "\\blaw\\b",
+    "\\beducation\\b", "\\bcompetitions?\\b", "\\bmuseums?\\b", "\\bmagazines?\\b", "\\bwebsites?\\b"
+  ],
+  "areas": [
+    {
+      "id": "ai",
+      "name": "ML / AI",
+      "seeds": [
+        {"category": "Machine learning", "depth": 3},
+        {"category": "Artificial neural networks", "depth": 3},
+        {"category": "Natural language processing", "depth": 3},
+        {"category": "Computer vision", "depth": 3},
+        {"category": "Artificial intelligence", "depth": 2}
+      ]
+    },
+    {
+      "id": "cs",
+      "name": "Computer science",
+      "seeds": [
+        {"category": "Algorithms", "depth": 3},
+        {"category": "Data structures", "depth": 3},
+        {"category": "Theory of computation", "depth": 3},
+        {"category": "Distributed computing", "depth": 3},
+        {"category": "Computer networking", "depth": 3}
+      ]
+    },
+    {
+      "id": "math",
+      "name": "Math & stats",
+      "seeds": [
+        {"category": "Statistics", "depth": 2},
+        {"category": "Probability theory", "depth": 2},
+        {"category": "Linear algebra", "depth": 2},
+        {"category": "Mathematical optimization", "depth": 2},
+        {"category": "Graph theory", "depth": 2},
+        {"category": "Information theory", "depth": 2}
+      ]
+    },
+    {
+      "id": "sec",
+      "name": "Security & blockchain",
+      "seeds": [
+        {"category": "Cryptography", "depth": 2},
+        {"category": "Computer security", "depth": 2},
+        {"category": "Blockchains", "depth": 2},
+        {"category": "Cryptocurrencies", "depth": 2}
+      ]
+    }
+  ]
+}

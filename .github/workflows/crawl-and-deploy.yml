@@ -1,0 +1,94 @@
+name: Crawl and deploy
+
+on:
+  schedule:
+    - cron: "17 3 * * 1"   # Mondays 03:17 UTC
+  workflow_dispatch:
+    inputs:
+      areas:
+        description: "Area ids to crawl, comma-separated (blank = all)"
+        required: false
+        default: ""
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/**"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: crawl-and-deploy
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decide whether to crawl
+        id: decide
+        run: |
+          if [ "${{ github.event_name }}" != "push" ] || [ ! -f site/pool/meta.json ]; then
+            echo "crawl=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "crawl=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.decide.outputs.crawl == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: Crawl Wikipedia categories
+        if: steps.decide.outputs.crawl == 'true'
+        env:
+          AREAS: ${{ github.event.inputs.areas }}
+        run: |
+          set -o pipefail
+          if [ -n "$AREAS" ]; then
+            python crawler/crawl.py --areas "$AREAS" --sample 20 | tee crawl-sample.txt
+          else
+            python crawler/crawl.py --sample 20 | tee crawl-sample.txt
+          fi
+
+      - name: Upload sample picks for hand-checking
+        if: steps.decide.outputs.crawl == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: crawl-sample
+          path: crawl-sample.txt
+
+      - name: Commit the refreshed pool
+        if: steps.decide.outputs.crawl == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/pool
+          if git diff --cached --quiet; then
+            echo "Pool unchanged."
+          else
+            git commit -m "Refresh article pool"
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: crawl
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

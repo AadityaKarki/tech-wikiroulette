@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+crawl-sample.txt
+site/pool/*.tmp
