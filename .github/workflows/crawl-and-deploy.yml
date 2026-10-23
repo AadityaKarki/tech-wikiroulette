@@ -29,7 +29,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 300
     steps:
+      # Always build from the latest main, even when re-running an older run,
+      # so the crawl uses the current config and the pool commit can be pushed.
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Decide whether to crawl
         id: decide
@@ -74,7 +78,8 @@ jobs:
             echo "Pool unchanged."
           else
             git commit -m "Refresh article pool"
-            git push
+            git pull --rebase origin main
+            git push origin HEAD:main
           fi
 
       - uses: actions/configure-pages@v5
