@@ -124,6 +124,10 @@ class Wiki:
         return out
 
 
+class CategoryCapHit(Exception):
+    pass
+
+
 def strip_ns(title: str) -> str:
     return title.split(":", 1)[1] if title.startswith("Category:") else title
 
@@ -134,40 +138,53 @@ def crawl_area(wiki: Wiki, area: dict, cfg: dict) -> dict:
     max_cats = cfg["max_categories_per_area"]
 
     seeds = [s["category"] for s in area["seeds"]]
-    pages: dict[int, dict] = {}  # pageid -> {"title", "seed"}
-    visited: set[str] = set()
-    skipped_cats = 0
+    pages: dict[int, dict] = {}  # pageid -> {"title", "seed", "depth"}
+    members_cache: dict[str, list] = {}  # category -> members, so overlapping seeds cost no extra calls
+    skipped: set[str] = set()
+
+    def members(cat: str) -> list:
+        if cat not in members_cache:
+            if len(members_cache) >= max_cats:
+                raise CategoryCapHit()
+            members_cache[cat] = list(wiki.category_members(cat))
+        return members_cache[cat]
 
     for seed_idx, seed in enumerate(area["seeds"]):
+        # Each seed gets its own walk, so a seed whose categories an earlier seed already
+        # reached still gets credit. A page belongs to the seed that reaches it at the
+        # shallowest depth (ties go to the earlier seed), i.e. its most specific seed.
+        visited: set[str] = set()
         queue = deque([(seed["category"], 0)])
-        found_before = len(pages)
-        while queue:
-            cat, depth = queue.popleft()
-            if cat in visited:
-                continue
-            if len(visited) >= max_cats:
-                log(f"  hit max_categories_per_area ({max_cats}); stopping this area's walk")
-                queue.clear()
-                break
-            visited.add(cat)
-            for pageid, ns, title in wiki.category_members(cat):
-                if ns == 14:
-                    sub = strip_ns(title)
-                    if sub in visited:
-                        continue
-                    if any(rx.search(sub) for rx in blocked):
-                        skipped_cats += 1
-                        continue
-                    if depth + 1 <= seed["depth"]:
-                        queue.append((sub, depth + 1))
-                elif ns == 0:
-                    if title.startswith(prefixes):
-                        continue
-                    pages.setdefault(pageid, {"title": title, "seed": seed_idx})
-        found = len(pages) - found_before
-        log(f"  {seed['category']}: +{found} articles ({len(visited)} categories so far)")
-        if found == 0:
-            log(f"  WARNING: seed category '{seed['category']}' gave nothing new; check its name")
+        reached: set[int] = set()
+        try:
+            while queue:
+                cat, depth = queue.popleft()
+                if cat in visited:
+                    continue
+                visited.add(cat)
+                for pageid, ns, title in members(cat):
+                    if ns == 14:
+                        sub = strip_ns(title)
+                        if sub in visited:
+                            continue
+                        if any(rx.search(sub) for rx in blocked):
+                            skipped.add(sub)
+                            continue
+                        if depth + 1 <= seed["depth"]:
+                            queue.append((sub, depth + 1))
+                    elif ns == 0:
+                        if title.startswith(prefixes):
+                            continue
+                        reached.add(pageid)
+                        prev = pages.get(pageid)
+                        if prev is None or depth < prev["depth"]:
+                            pages[pageid] = {"title": title, "seed": seed_idx, "depth": depth}
+        except CategoryCapHit:
+            log(f"  hit max_categories_per_area ({max_cats}); stopping {seed['category']} early")
+        log(f"  {seed['category']}: reached {len(reached)} articles in {len(visited)} categories")
+        if not reached:
+            log(f"  WARNING: seed category '{seed['category']}' gave no articles; check its name")
+    skipped_cats = len(skipped)
 
     # Drop redirects, disambiguation pages and stubs.
     ids = list(pages)

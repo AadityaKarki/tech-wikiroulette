@@ -11,7 +11,7 @@ Spin for a random technical Wikipedia article. Each spin opens one article in a 
 
 ## How it works
 
-1. **Weekly crawl.** A GitHub Action runs `crawler/crawl.py` every Monday. It walks each seed category breadth-first, 2–3 levels deep, using Wikipedia's Action API (`list=categorymembers`). It skips subcategories that match a blocklist (people, companies, films, "by country", and so on).
+1. **Weekly crawl.** A GitHub Action runs `crawler/crawl.py` every Monday. It walks each seed category breadth-first, 1–3 levels deep, using Wikipedia's Action API (`list=categorymembers`). It skips subcategories that match a blocklist (people, companies, films, "by country", and so on). Each article is filed under the seed that reaches it in the fewest steps, so the Subfield picker stays meaningful even when seeds overlap.
 2. **Filters.** Articles are kept only if they are in the main namespace, aren't redirects or disambiguation pages, and are at least 3,000 bytes long. Titles starting with "List of", "Outline of" and similar are dropped.
 3. **Pool files.** The crawler writes `site/pool/<area>.json` (`[pageid, title, seedIndex]` rows) and `site/pool/meta.json`, then commits them.
 4. **Spin.** The static page loads the pool files and picks an enabled area at random with equal odds, then an article you haven't seen yet. It opens `https://en.wikipedia.org/?curid=<pageid>` in a new tab. A spin makes no API call. Page IDs keep working after an article is renamed.

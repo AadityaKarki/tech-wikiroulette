@@ -133,12 +133,12 @@ class CrawlerTest(unittest.TestCase):
             got,
             {
                 1: ("Backpropagation", 0),
-                3: ("Transformer (deep learning architecture)", 0),
+                3: ("Transformer (deep learning architecture)", 1),  # CV holds it directly: more specific
                 7: ("Perceptron", 0),
                 10: ("Image segmentation", 1),
             },
         )
-        self.assertEqual(result["seed_counts"], [3, 1, 0])
+        self.assertEqual(result["seed_counts"], [2, 2, 0])
         self.assertTrue(state["lagged"])
 
     def test_cli_writes_pool_and_meta(self):

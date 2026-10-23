@@ -3,63 +3,230 @@
   "min_bytes": 3000,
   "min_pages_per_area": 200,
   "max_categories_per_area": 2500,
-  "drop_title_prefixes": ["List of ", "Lists of ", "Outline of ", "Index of ", "Glossary of ", "Timeline of "],
+  "drop_title_prefixes": [
+    "List of ",
+    "Lists of ",
+    "Outline of ",
+    "Index of ",
+    "Glossary of ",
+    "Timeline of "
+  ],
   "blocked_category_patterns": [
-    "\\bpeople\\b", "\\bpersons?\\b", "scientists\\b", "statisticians\\b", "mathematicians\\b",
-    "cryptographers\\b", "researchers\\b", "engineers\\b", "programmers\\b", "hackers\\b",
-    "theorists\\b", "economists\\b", "founders\\b", "executives\\b", "entrepreneurs\\b",
-    "\\bcompan(y|ies)\\b", "\\bbusinesses\\b", "organi[sz]ations\\b", "\\bexchanges\\b",
-    "\\bconferences\\b", "\\bjournals\\b", "\\bbooks\\b", "\\bpublications\\b", "\\bawards?\\b",
-    "\\bfilms?\\b", "\\btelevision\\b", "video games", "\\bfiction(al)?\\b", "\\bin popular culture\\b",
-    "\\bby country\\b", "\\bby nationality\\b", "\\bby year\\b", "\\bby decade\\b", "\\bby century\\b",
-    "\\bhistory of\\b", "\\bstubs?\\b", "\\bwikipedia\\b", "\\btemplates?\\b",
-    "\\bsoftware\\b", "\\bproducts?\\b", "\\bprojects?\\b", "\\bstartups?\\b", "\\bevents?\\b",
-    "\\bincidents?\\b", "\\bcrimes?\\b", "\\bcriminals?\\b", "\\blegislation\\b", "\\blaw\\b",
-    "\\beducation\\b", "\\bcompetitions?\\b", "\\bmuseums?\\b", "\\bmagazines?\\b", "\\bwebsites?\\b"
+    "\\bpeople\\b",
+    "\\bpersons?\\b",
+    "scientists\\b",
+    "statisticians\\b",
+    "mathematicians\\b",
+    "cryptographers\\b",
+    "researchers\\b",
+    "engineers\\b",
+    "programmers\\b",
+    "hackers\\b",
+    "theorists\\b",
+    "economists\\b",
+    "founders\\b",
+    "executives\\b",
+    "entrepreneurs\\b",
+    "\\bcompan(y|ies)\\b",
+    "\\bbusinesses\\b",
+    "organi[sz]ations\\b",
+    "\\bexchanges\\b",
+    "\\bconferences\\b",
+    "\\bjournals\\b",
+    "\\bbooks\\b",
+    "\\bpublications\\b",
+    "\\bawards?\\b",
+    "\\bfilms?\\b",
+    "\\btelevision\\b",
+    "video games",
+    "\\bfiction(al)?\\b",
+    "\\bin popular culture\\b",
+    "\\bby country\\b",
+    "\\bby nationality\\b",
+    "\\bby year\\b",
+    "\\bby decade\\b",
+    "\\bby century\\b",
+    "\\bhistory of\\b",
+    "\\bstubs?\\b",
+    "\\bwikipedia\\b",
+    "\\btemplates?\\b",
+    "\\bsoftware\\b",
+    "\\bproducts?\\b",
+    "\\bprojects?\\b",
+    "\\bstartups?\\b",
+    "\\bevents?\\b",
+    "\\bincidents?\\b",
+    "\\bcrimes?\\b",
+    "\\bcriminals?\\b",
+    "\\blegislation\\b",
+    "\\blaw\\b",
+    "\\beducation\\b",
+    "\\bcompetitions?\\b",
+    "\\bmuseums?\\b",
+    "\\bmagazines?\\b",
+    "\\bwebsites?\\b",
+    "\\blists (and|of)\\b",
+    "-related lists\\b",
+    "\\bcomparisons\\b",
+    "\\bapplications of\\b",
+    "\\bcontroversies\\b",
+    "\\bcriticism\\b",
+    "\\bdeaths\\b",
+    "\\bmilitary\\b",
+    "\\bregulation\\b",
+    "\\bsupercomputers\\b",
+    "\\bprocessing units\\b",
+    "\\bphones?\\b",
+    "\\bsmartphones?\\b",
+    "\\bsmart devices\\b",
+    "\\bdevices\\b",
+    "\\bhardware\\b",
+    "\\bbrands?\\b",
+    "\\bmanufacturers\\b",
+    "\\bvendors\\b",
+    "\\bservice providers\\b",
+    "\\bonline services\\b",
+    "\\bbroadcast(ing|ers)?\\b",
+    "\\btelecommunications? companies\\b",
+    "\\bbuildings?\\b",
+    "\\bwindows\\b",
+    "\\bart\\b",
+    "\\bblockchain games\\b",
+    "\\bentities\\b",
+    "\\bhacker groups\\b",
+    "\\bleaks\\b",
+    "\\btwitter\\b",
+    "\\bworks about\\b",
+    "\\bqualifications\\b",
+    "\\bsurveillance\\b",
+    "\\binformation privacy\\b",
+    "\\bmusical\\b",
+    "\\bdecipherment\\b",
+    "\\bcontests\\b",
+    "\\bcryptologic education\\b",
+    "\\b3d imaging\\b",
+    "\\bphotogrammetry\\b",
+    "\\bimage sensor\\b",
+    "\\bcommercial\\b",
+    "\\bresearch infrastructure\\b",
+    "\\bnetwork performance\\b",
+    "\\bunits of\\b",
+    "\\bcorpus linguistics\\b",
+    "\\bstatistical data\\b",
+    "\\balgorithmic trading\\b",
+    "\\bgovernment by\\b",
+    "\\bcalendar\\b",
+    "\\bcomputational physics\\b",
+    "\\bsignal processing\\b",
+    "\\bbioinformatics\\b",
+    "\\bcitizen science\\b",
+    "\\bvolunteer computing\\b",
+    "\\bidentity documents\\b",
+    "\\bmedical\\b"
   ],
   "areas": [
     {
       "id": "ai",
       "name": "ML / AI",
       "seeds": [
-        {"category": "Machine learning", "depth": 3},
-        {"category": "Artificial neural networks", "depth": 3},
-        {"category": "Natural language processing", "depth": 3},
-        {"category": "Computer vision", "depth": 3},
-        {"category": "Artificial intelligence", "depth": 2}
+        {
+          "category": "Machine learning",
+          "depth": 3
+        },
+        {
+          "category": "Artificial neural networks",
+          "depth": 3
+        },
+        {
+          "category": "Natural language processing",
+          "depth": 2
+        },
+        {
+          "category": "Computer vision",
+          "depth": 1
+        },
+        {
+          "category": "Artificial intelligence",
+          "depth": 2
+        }
       ]
     },
     {
       "id": "cs",
       "name": "Computer science",
       "seeds": [
-        {"category": "Algorithms", "depth": 3},
-        {"category": "Data structures", "depth": 3},
-        {"category": "Theory of computation", "depth": 3},
-        {"category": "Distributed computing", "depth": 3},
-        {"category": "Computer networking", "depth": 3}
+        {
+          "category": "Algorithms",
+          "depth": 2
+        },
+        {
+          "category": "Data structures",
+          "depth": 3
+        },
+        {
+          "category": "Theory of computation",
+          "depth": 3
+        },
+        {
+          "category": "Distributed computing",
+          "depth": 3
+        },
+        {
+          "category": "Computer networking",
+          "depth": 1
+        }
       ]
     },
     {
       "id": "math",
       "name": "Math & stats",
       "seeds": [
-        {"category": "Statistics", "depth": 2},
-        {"category": "Probability theory", "depth": 2},
-        {"category": "Linear algebra", "depth": 2},
-        {"category": "Mathematical optimization", "depth": 2},
-        {"category": "Graph theory", "depth": 2},
-        {"category": "Information theory", "depth": 2}
+        {
+          "category": "Statistics",
+          "depth": 2
+        },
+        {
+          "category": "Probability theory",
+          "depth": 2
+        },
+        {
+          "category": "Linear algebra",
+          "depth": 2
+        },
+        {
+          "category": "Mathematical optimization",
+          "depth": 2
+        },
+        {
+          "category": "Graph theory",
+          "depth": 2
+        },
+        {
+          "category": "Information theory",
+          "depth": 1
+        }
       ]
     },
     {
       "id": "sec",
       "name": "Security & blockchain",
       "seeds": [
-        {"category": "Cryptography", "depth": 2},
-        {"category": "Computer security", "depth": 2},
-        {"category": "Blockchains", "depth": 2},
-        {"category": "Cryptocurrencies", "depth": 2}
+        {
+          "category": "Cryptography",
+          "depth": 2
+        },
+        {
+          "category": "Computer security",
+          "depth": 1
+        },
+        {
+          "category": "Blockchains",
+          "depth": 2
+        },
+        {
+          "category": "Cryptocurrencies",
+          "depth": 2
+        }
       ]
     }
   ]
